@@ -1,0 +1,50 @@
+.navbar {
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  background-color: #f4f4f4;
+  z-index: 100;
+}
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  color: var(--color-primary);
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.nav-links a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color-text-soft);
+  font-size: 15px;
+  transition: 0.2s;
+}
+.nav-links a:hover {
+  color: var(--color-primary);
+}
+.nav-links .btn-nav {
+  background: var(--color-primary);
+  color: #ffffff;
+  padding: 10px 24px;
+  border-radius: 6px;
+}
+.nav-links .btn-nav:hover {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .nav-links a:not(.btn-nav) {
+    display: none;
+  } /* keep Sign Up visible on mobile */
+}

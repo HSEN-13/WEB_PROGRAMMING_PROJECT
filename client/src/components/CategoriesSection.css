@@ -1,0 +1,76 @@
+/* Container spacing */
+.category-section {
+  padding: 25px 32px;
+  margin: 30px auto;
+  background-color: #f4f4f4;
+  border-radius: 16px;
+}
+
+/* Header layout */
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.category-header h2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: black; /* Dark Slate */
+}
+
+.view-all-link {
+  color: var(--color-primary); /* Electric Indigo */
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: opacity 0.2s;
+  padding: 7px 25px;
+  border-width: 1px;
+  border-color: var(--color-primary);
+  border-style: solid;
+  border-radius: 24px;
+}
+
+.view-all-link:hover {
+  opacity: 0.8;
+}
+
+/* The Grid System */
+.category-grid {
+  display: grid;
+  /* Automatically fits as many 160px cards as possible in a row */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+}
+
+/* Individual Category Card */
+.category-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.category-image {
+  width: 100px;
+}
+
+/* Hover Effects */
+.category-card:hover {
+  transform: translateY(-4px); /* Lifts the card up slightly */
+  border-color: #4f46e5; /* Indigo border */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.category-card:hover .category-icon {
+  background-color: #eef2ff; /* Very light indigo background on hover */
+}
