@@ -48,3 +48,33 @@
     display: none;
   } /* keep Sign Up visible on mobile */
 }
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-username {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  color: #4934d1;
+  border-style: solid;
+  border-color: var(--color-primary);
+  border-width: 3px;
+  border-radius: 16px;
+  padding: 8px;
+}
+
+.nav-logout {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.nav-logout:hover {
+  color: #4934d1;
+}
