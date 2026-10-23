@@ -84,6 +84,9 @@ app.post("/api/signup", async (req, res) => {
         message: "Database error",
       });
     }
+    return res.status(201).json({
+      message: "Account created successfully!",
+    });
   });
 });
 
@@ -214,43 +217,56 @@ app.post("/api/logout", (req, res) => {
   });
 });
 
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from the server!" });
+app.get("/api/products", (req, res) => {
+  const sql = `
+    SELECT
+      p.id,
+      p.title,
+      p.description,
+      p.price,
+      p.\`condition\`,
+      p.is_negotiable,
+      p.created_at,
+      c.name AS category,
+      u.full_name AS seller_name,
+      (
+        SELECT pi.image_url
+        FROM product_images pi
+        WHERE pi.product_id = p.id
+        ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC
+        LIMIT 1
+      ) AS image_url
+    FROM products p
+    JOIN categories c ON p.category_id = c.id
+    JOIN users u ON p.seller_id = u.id
+    WHERE p.status = 'available'
+    ORDER BY p.created_at DESC, p.id DESC
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.log("Products error:", err);
+      return res.status(500).json({
+        message: "Could not load products",
+      });
+    }
+
+    return res.json(results);
+  });
 });
 
-const products = [
-  {
-    id: 1,
-    title: "NVIDIA RTX 3070 Ti Founders Edition",
-    price: 380,
-    condition: "Used",
-    category: "GPU",
-  },
-  {
-    id: 2,
-    title: "Corsair Vengeance 32GB DDR5 6000MHz",
-    price: 120,
-    condition: "Like New",
-    category: "RAM",
-  },
-  {
-    id: 3,
-    title: "AMD Ryzen 5 7600X Processor",
-    price: 190,
-    condition: "Brand New",
-    category: "CPU",
-  },
-  {
-    id: 4,
-    title: "Samsung 980 PRO 2TB NVMe SSD",
-    price: 130,
-    condition: "Like New",
-    category: "SSD",
-  },
-];
+app.get("/api/categories", (req, res) => {
+  const sql = "SELECT id, name, slug FROM categories ORDER BY name";
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.log("Categories error:", err);
+      return res.status(500).json({
+        message: "Could not load categories",
+      });
+    }
+    return res.json(results);
+  });
 });
 
 app.get("/api/test-db", (req, res) => {
