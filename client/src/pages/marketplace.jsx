@@ -118,39 +118,45 @@ function Marketplace() {
               ) : (
                 <div className="marketplace-grid">
                   {filteredProducts.map((product) => (
-                    <article className="marketplace-card" key={product.id}>
-                      <div className="marketplace-image">
-                        {product.image_url ? (
-                          <img
-                            src={product.image_url}
-                            alt={product.title}
-                            loading="lazy"
-                          />
-                        ) : (
-                          <span>No image available</span>
-                        )}
-                      </div>
-                      <div className="marketplace-card-body">
-                        <span className="marketplace-category">
-                          {product.category}
-                        </span>
-                        <h3>{product.title}</h3>
-                        <p className="marketplace-seller">
-                          Sold by {product.seller_name}
-                        </p>
-                        <div className="marketplace-card-bottom">
-                          <strong>${Number(product.price).toFixed(2)}</strong>
-                          <span className="marketplace-condition">
-                            {product.condition}
-                          </span>
+                    <a
+                      href={`/product/${product.id}`}
+                      className="marketplace-card-link"
+                      key={product.id}
+                    >
+                      <article className="marketplace-card" key={product.id}>
+                        <div className="marketplace-image">
+                          {product.image_url ? (
+                            <img
+                              src={product.image_url}
+                              alt={product.title}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span>No image available</span>
+                          )}
                         </div>
-                        {Boolean(product.is_negotiable) && (
-                          <span className="marketplace-negotiable">
-                            Negotiable
+                        <div className="marketplace-card-body">
+                          <span className="marketplace-category">
+                            {product.category}
                           </span>
-                        )}
-                      </div>
-                    </article>
+                          <h3>{product.title}</h3>
+                          <p className="marketplace-seller">
+                            Sold by {product.seller_name}
+                          </p>
+                          <div className="marketplace-card-bottom">
+                            <strong>${Number(product.price).toFixed(2)}</strong>
+                            <span className="marketplace-condition">
+                              {product.condition}
+                            </span>
+                          </div>
+                          {Boolean(product.is_negotiable) && (
+                            <span className="marketplace-negotiable">
+                              Negotiable
+                            </span>
+                          )}
+                        </div>
+                      </article>
+                    </a>
                   ))}
                 </div>
               )}

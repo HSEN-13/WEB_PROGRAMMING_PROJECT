@@ -47,7 +47,7 @@ function Navbar() {
         </a>
         <div className="nav-links">
           <a href="/marketplace">Marketplace</a>
-          <a href="#how-it-works">How it Works</a>
+          {user && <a href="/sell">Sell Product</a>}
           <a href="/safety">Safety</a>
           <div className="nav-auth">
             {!loading &&

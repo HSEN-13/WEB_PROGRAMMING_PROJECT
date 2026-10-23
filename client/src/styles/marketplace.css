@@ -127,6 +127,23 @@
   color: #64748b;
   padding: 60px 0;
 }
+
+.marketplace-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.marketplace-card-link .marketplace-card {
+  height: 100%;
+}
+
+.marketplace-card-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
 /* Responsive layout */
 @media (max-width: 1100px) {
   .marketplace-grid {

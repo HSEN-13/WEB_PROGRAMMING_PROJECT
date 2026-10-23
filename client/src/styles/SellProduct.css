@@ -1,0 +1,155 @@
+.sell-page {
+  min-height: 85vh;
+  background: var(--color-bg);
+  padding: 45px 20px 90px;
+}
+
+.sell-container {
+  max-width: 780px;
+  margin: 0 auto;
+}
+.sell-back {
+  display: inline-block;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+.sell-back:hover {
+  text-decoration: underline;
+}
+.sell-heading {
+  margin-bottom: 30px;
+}
+.sell-heading h1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+.sell-heading p {
+  font-size: 15px;
+  color: #64748b;
+}
+/* Form container */
+.sell-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 35px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.035);
+}
+.sell-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 23px;
+}
+.sell-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.sell-field input,
+.sell-field select,
+.sell-field textarea {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+  background: #ffffff;
+  outline: none;
+}
+.sell-field input:focus,
+.sell-field select:focus,
+.sell-field textarea:focus {
+  border-color: var(--color-primary);
+}
+.sell-field textarea {
+  resize: vertical;
+}
+.sell-field input[type="file"] {
+  cursor: pointer;
+  background: var(--color-surface);
+}
+.sell-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+/* Negotiation checkbox */
+.sell-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.sell-checkbox input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+.sell-checkbox label {
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--color-text);
+}
+/* Image upload */
+.sell-hint {
+  color: #64748b;
+  font-size: 12px;
+}
+.sell-selected {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  color: var(--color-text);
+}
+.sell-selected p {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+/* Submit */
+.sell-submit {
+  width: 100%;
+  margin-top: 5px;
+  text-align: center;
+}
+.sell-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.sell-error {
+  color: #dc2626;
+  font-size: 14px;
+  margin: 15px 0;
+}
+.sell-login {
+  text-align: center;
+}
+.sell-login h2 {
+  margin-bottom: 10px;
+}
+.sell-login p {
+  color: #64748b;
+  margin-bottom: 22px;
+}
+/* Mobile */
+@media (max-width: 600px) {
+  .sell-heading h1 {
+    font-size: 29px;
+  }
+  .sell-card {
+    padding: 22px;
+  }
+  .sell-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
