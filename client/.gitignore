@@ -39,3 +39,14 @@ Thumbs.db
 # Build outputs
 dist/
 build/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Uploaded product images
+server/uploads/
