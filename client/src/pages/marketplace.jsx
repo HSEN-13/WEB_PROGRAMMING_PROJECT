@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../styles/Marketplace.css";
+import "../styles/marketplace.css";
 
 function Marketplace() {
   const [products, setProducts] = useState([]);
@@ -27,6 +27,16 @@ function Marketplace() {
         const categoriesData = await categoriesResponse.json();
         setProducts(productsData);
         setCategories(categoriesData);
+
+        const requestedCategory = new URLSearchParams(
+          window.location.search,
+        ).get("category");
+
+        const categoryExists = categoriesData.some(
+          (category) => category.slug === requestedCategory,
+        );
+
+        setCategory(categoryExists ? requestedCategory : "all");
       } catch (err) {
         console.error(err);
         setError("Could not load products. Please try again.");
@@ -41,7 +51,8 @@ function Marketplace() {
     const matchesSearch = product.title
       .toLowerCase()
       .includes(search.trim().toLowerCase());
-    const matchesCategory = category === "all" || product.category === category;
+    const matchesCategory =
+      category === "all" || product.category_slug === category;
     const matchesCondition =
       condition === "all" || product.condition === condition;
     return matchesSearch && matchesCategory && matchesCondition;
@@ -77,7 +88,7 @@ function Marketplace() {
             >
               <option value="all">All Categories</option>
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.name}>
+                <option key={cat.id} value={cat.slug}>
                   {cat.name}
                 </option>
               ))}

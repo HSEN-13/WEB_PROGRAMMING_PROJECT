@@ -6,17 +6,17 @@ function Hero() {
     <div className="hero-wrapper">
       <section className="hero">
         <div className="hero-content">
-          <h1>Buy and sell PC hardware with engineering students.</h1>
+          <h1>Buy and sell computer hardware.</h1>
           <p>
-            Upgrade your rig without the risk. A peer-to-peer marketplace built
-            exclusively for students with real-time negotiation.
+            Find your next upgrade, make an offer, and arrange pickup with the
+            seller.
           </p>
           <div className="hero-btns">
             <a href="/marketplace" className="btn-primary">
               Browse Hardware
             </a>
-            <a href="#how-it-works" className="btn-secondary">
-              Learn how it works &rarr;
+            <a href="/sell" className="btn-secondary">
+              Sell your hardware &rarr;
             </a>
           </div>
         </div>

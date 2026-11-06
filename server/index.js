@@ -291,6 +291,7 @@ app.get("/api/products", (req, res) => {
       p.is_negotiable,
       p.created_at,
       c.name AS category,
+      c.slug AS category_slug,
       u.full_name AS seller_name,
       (
         SELECT pi.image_url
@@ -839,28 +840,6 @@ app.patch("/api/offers/:id/decision", requireLogin, async (req, res) => {
         .json({ message: "This offer is no longer pending." });
     }
 
-    if (decision === "accepted") {
-      await connection.execute(
-        `INSERT INTO orders
-           (product_id, buyer_id, seller_id, offer_id, final_price, status)
-         SELECT product_id, buyer_id, ?, id, amount, 'completed'
-         FROM offers
-         WHERE id = ?`,
-        [req.session.userId, offerId],
-      );
-
-      await connection.execute(
-        "UPDATE products SET status = 'sold' WHERE id = ?",
-        [product.id],
-      );
-
-      await connection.execute(
-        `UPDATE offers SET status = 'rejected'
-         WHERE product_id = ? AND status = 'pending'`,
-        [product.id],
-      );
-    }
-
     await connection.commit();
     return res.json({ status: decision });
   } catch (err) {
@@ -1116,6 +1095,109 @@ app.get("/api/me/orders/:view", requireLogin, (req, res) => {
 
     return res.json(orders);
   });
+});
+
+app.patch("/api/orders/:id/status", requireLogin, async (req, res) => {
+  const orderId = Number(req.params.id);
+  const userId = req.session.userId;
+  const nextStatus = req.body?.status;
+
+  if (!Number.isSafeInteger(orderId) || orderId <= 0) {
+    return res.status(400).json({ message: "Invalid order ID." });
+  }
+
+  if (!["completed", "cancelled"].includes(nextStatus)) {
+    return res.status(400).json({ message: "Invalid order status." });
+  }
+
+  const connection = connectDB().promise();
+
+  try {
+    await connection.beginTransaction();
+
+    // Use the same product-first lock order as checkout.
+    const [products] = await connection.execute(
+      `SELECT id, status FROM products
+       WHERE id = (
+         SELECT product_id FROM orders
+         WHERE id = ? AND (buyer_id = ? OR seller_id = ?)
+       )
+       FOR UPDATE`,
+      [orderId, userId, userId],
+    );
+
+    if (products.length === 0) {
+      await connection.rollback();
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    const [orders] = await connection.execute(
+      `SELECT id, buyer_id, seller_id, offer_id, status
+       FROM orders WHERE id = ? FOR UPDATE`,
+      [orderId],
+    );
+
+    const order = orders[0];
+
+    if (nextStatus === "completed" && order.seller_id !== userId) {
+      await connection.rollback();
+      return res.status(403).json({
+        message: "Only the seller can confirm pickup and payment.",
+      });
+    }
+
+    // Repeated clicks or retries return the saved result.
+    if (order.status === nextStatus) {
+      await connection.commit();
+      return res.json({ status: nextStatus });
+    }
+
+    if (order.status !== "pending" || products[0].status !== "reserved") {
+      await connection.rollback();
+      return res.status(409).json({
+        message: "This order can no longer be changed. Refresh the page.",
+      });
+    }
+
+    await connection.execute("UPDATE orders SET status = ? WHERE id = ?", [
+      nextStatus,
+      orderId,
+    ]);
+
+    const productStatus = nextStatus === "completed" ? "sold" : "available";
+
+    await connection.execute("UPDATE products SET status = ? WHERE id = ?", [
+      productStatus,
+      products[0].id,
+    ]);
+
+    if (nextStatus === "cancelled" && order.offer_id !== null) {
+      const offerStatus = order.buyer_id === userId ? "withdrawn" : "rejected";
+
+      await connection.execute(
+        "UPDATE offers SET status = ? WHERE id = ? AND status = 'accepted'",
+        [offerStatus, order.offer_id],
+      );
+    }
+
+    await connection.commit();
+    return res.json({ status: nextStatus });
+  } catch (err) {
+    try {
+      await connection.rollback();
+    } catch (rollbackErr) {
+      console.error("Order rollback error:", rollbackErr);
+    }
+
+    console.error("Update order error:", err);
+    return res.status(500).json({
+      message: "Could not update the order. Refresh to check its status.",
+    });
+  } finally {
+    await connection.end().catch((err) => {
+      console.error("Close order connection error:", err);
+    });
+  }
 });
 
 app.use((err, req, res, next) => {

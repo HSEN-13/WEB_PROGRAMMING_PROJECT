@@ -97,11 +97,26 @@ export default function Offers({ view }) {
         {actionError && <p role="alert">{actionError}</p>}
 
         {pageState === "ready" && offers.length === 0 && (
-          <p>
-            {received
-              ? "You haven’t received any offers on your listings yet."
-              : "You haven’t made any offers yet."}
-          </p>
+          <section className="account-empty">
+            <h2>
+              {received
+                ? "Waiting for your first offer"
+                : "Your offers will appear here"}
+            </h2>
+
+            <p>
+              {received
+                ? "Offers on your negotiable listings will appear here for you to accept or reject."
+                : "Make an offer on a negotiable product and follow the seller’s response here."}
+            </p>
+
+            <a
+              className="btn-primary"
+              href={received ? "/my-listings" : "/marketplace"}
+            >
+              {received ? "View my listings" : "Browse marketplace"}
+            </a>
+          </section>
         )}
 
         {pageState === "ready" &&

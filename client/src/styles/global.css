@@ -63,6 +63,151 @@ body {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
+/* Orders and Offers pages */
+
+:is(.orders-page, .offers-page) {
+  color: var(--color-text);
+}
+
+:is(.orders-page, .offers-page) > h1 {
+  margin-bottom: 24px;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+
+/* Navigation tabs */
+
+:is(.orders-page, .offers-page) > nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 100%;
+  margin: 0 0 30px;
+  padding: 6px;
+  background: #f1effb;
+  border: 1px solid #e5e0f8;
+  border-radius: 14px;
+}
+
+:is(.orders-page, .offers-page) > nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 22px;
+  border-radius: 9px;
+  color: #544b70;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+:is(.orders-page, .offers-page) > nav a:hover {
+  background: #e5dff8;
+  color: var(--color-primary);
+}
+
+:is(.orders-page, .offers-page) > nav a[aria-current="page"] {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 3px 8px rgb(73 52 209 / 18%);
+}
+
+/* Empty results */
+
+:is(.orders-page, .offers-page) .account-empty {
+  padding: 56px 28px;
+  border: 1px solid #e5e7ef;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #faf9ff, #ffffff);
+  text-align: center;
+}
+
+:is(.orders-page, .offers-page) .account-empty h2 {
+  margin-bottom: 12px;
+  font-size: 23px;
+  line-height: 1.3;
+  letter-spacing: -0.4px;
+}
+
+:is(.orders-page, .offers-page) .account-empty p {
+  max-width: 460px;
+  margin: 0 auto 24px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+:is(.orders-page, .offers-page) .account-empty .btn-primary {
+  padding: 12px 22px;
+  font-size: 14px;
+}
+
+/* Cards displayed when records exist */
+
+:is(.orders-page, .offers-page) > article {
+  margin: 0 0 18px;
+  padding: 26px;
+  border: 1px solid #e5e7ef;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 18px rgb(30 41 59 / 4%);
+}
+
+:is(.orders-page, .offers-page) > article h2 a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+:is(.orders-page, .offers-page) > article h2 a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+:is(.orders-page, .offers-page) > article p {
+  margin: 7px 0;
+  line-height: 1.6;
+}
+
+/* Keyboard navigation */
+
+:is(.orders-page, .offers-page) a:focus-visible,
+:is(.orders-page, .offers-page) button:focus-visible {
+  outline: 3px solid #8b7be8;
+  outline-offset: 4px;
+}
+
+/* Mobile layout */
+
+@media (max-width: 540px) {
+  :is(.orders-page, .offers-page) > nav {
+    display: flex;
+    width: 100%;
+  }
+
+  :is(.orders-page, .offers-page) > nav a {
+    flex: 1;
+    padding: 11px 12px;
+    text-align: center;
+  }
+
+  :is(.orders-page, .offers-page) .account-empty {
+    padding: 38px 20px;
+  }
+
+  :is(.orders-page, .offers-page) .account-empty h2 {
+    font-size: 21px;
+  }
+
+  :is(.orders-page, .offers-page) > article {
+    padding: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 20px;

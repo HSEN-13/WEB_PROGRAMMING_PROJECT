@@ -74,3 +74,14 @@
 .category-card:hover .category-icon {
   background-color: #eef2ff; /* Very light indigo background on hover */
 }
+
+.category-card {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.category-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}

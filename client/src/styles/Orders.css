@@ -53,3 +53,26 @@
   opacity: 0.6;
   cursor: wait;
 }
+
+.order-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.order-cancel {
+  padding: 14px 24px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  background: white;
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.order-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
