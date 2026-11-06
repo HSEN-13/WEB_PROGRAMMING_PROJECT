@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import OfferForm from "../components/OfferForm";
 import "../styles/ProductDetails.css";
 
 function ProductDetails({ productId }) {
@@ -134,15 +135,23 @@ function ProductDetails({ productId }) {
                 {/* BUY AND OFFER BUTTONS */}
                 {product.status === "available" ? (
                   <div className="details-actions">
-                    <button className="details-buy" disabled>
-                      Buy Now
-                    </button>
-
-                    {Boolean(product.is_negotiable) && (
-                      <button className="details-offer" disabled>
-                        Make an Offer
-                      </button>
+                    {!product.viewerIsSeller && (
+                      <a
+                        className="details-buy"
+                        href={"/checkout/" + product.id}
+                        style={{ textDecoration: "none" }}
+                      >
+                        Buy Now
+                      </a>
                     )}
+
+                    {Boolean(product.is_negotiable) &&
+                      !product.viewerIsSeller &&
+                      (product.viewerLoggedIn ? (
+                        <OfferForm key={product.id} productId={product.id} />
+                      ) : (
+                        <a href="/login">Log in to make an offer</a>
+                      ))}
                   </div>
                 ) : (
                   <p className="details-unavailable">

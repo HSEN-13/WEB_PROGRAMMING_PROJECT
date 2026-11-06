@@ -48,7 +48,10 @@ function Navbar() {
         <div className="nav-links">
           <a href="/marketplace">Marketplace</a>
           {user && <a href="/sell">Sell Product</a>}
-          <a href="/safety">Safety</a>
+          {user && <a href="/my-listings">My Listings</a>}
+          <a href="/reviews">Reviews</a>
+          {user && <a href="/orders/purchases">Orders</a>}
+          {user && <a href="/offers/received">Offers</a>}
           <div className="nav-auth">
             {!loading &&
               (user ? (

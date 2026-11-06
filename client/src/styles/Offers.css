@@ -1,0 +1,53 @@
+.offers-page {
+  max-width: 850px;
+  min-height: 75vh;
+  margin: 0 auto;
+  padding: 48px 20px;
+  color: var(--color-text);
+}
+
+.offers-tabs,
+.offer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.offers-tabs {
+  margin: 12px 0 24px;
+}
+
+.offers-tabs a,
+.offer-card h2 a {
+  color: var(--color-primary);
+}
+
+.offers-tabs a[aria-current="page"] {
+  font-weight: 700;
+}
+
+.offer-card {
+  margin-bottom: 16px;
+  padding: 20px;
+  border: 1px solid #dbe1e8;
+  border-radius: 12px;
+}
+
+.offer-card h2 {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.offer-actions {
+  margin-top: 14px;
+}
+
+.offer-reject {
+  padding: 12px 20px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  background: white;
+  color: var(--color-text);
+  cursor: pointer;
+}

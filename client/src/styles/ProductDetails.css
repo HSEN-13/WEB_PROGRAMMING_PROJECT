@@ -162,6 +162,19 @@
   padding: 70px 0;
   color: #64748b;
 }
+
+.details-offer-form {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 320px);
+}
+
+.details-offer-form input {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+}
 /* Responsive design */
 @media (max-width: 900px) {
   .details-grid {
