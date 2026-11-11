@@ -45,11 +45,11 @@ export const signup = async (req, res) => {
 
   const sql = `
 
-        INSERT INTO users (full_name, email, password_hash)
+        INSERT INTO users (full_name, email, password_hash)
 
-        VALUES (?, ?, ?)
+        VALUES (?, ?, ?)
 
-    `;
+    `;
 
   db.query(sql, [name, userEmail, hashedPassword], (err, result) => {
     if (err) {

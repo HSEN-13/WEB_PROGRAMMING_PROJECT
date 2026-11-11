@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import * as controller from "./orders.controller.js";
+import * as controller from "./ordersControllers.js";
 
-import requireLogin from "../../shared/middleware/requireLogin.js";
+import requireLogin from "../../middleware/requireLogin.js";
 
 const router = Router();
 

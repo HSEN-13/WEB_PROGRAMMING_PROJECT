@@ -1,57 +1,57 @@
 import { db } from "../../config/db.js";
 
-import { deleteUploadedFiles } from "./products.upload.js";
+import { deleteUploadedFiles } from "./productUpload.js";
 
 export const list = (req, res) => {
   const sql = `
 
-    SELECT
+    SELECT
 
-      p.id,
+      p.id,
 
-      p.title,
+      p.title,
 
-      p.description,
+      p.description,
 
-      p.price,
+      p.price,
 
-      p.\`condition\`,
+      p.\`condition\`,
 
-      p.is_negotiable,
+      p.is_negotiable,
 
-      p.created_at,
+      p.created_at,
 
-      c.name AS category,
+      c.name AS category,
 
-      c.slug AS category_slug,
+      c.slug AS category_slug,
 
-      u.full_name AS seller_name,
+      u.full_name AS seller_name,
 
-      (
+      (
 
-        SELECT pi.image_url
+        SELECT pi.image_url
 
-        FROM product_images pi
+        FROM product_images pi
 
-        WHERE pi.product_id = p.id
+        WHERE pi.product_id = p.id
 
-        ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC
+        ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC
 
-        LIMIT 1
+        LIMIT 1
 
-      ) AS image_url
+      ) AS image_url
 
-    FROM products p
+    FROM products p
 
-    JOIN categories c ON p.category_id = c.id
+    JOIN categories c ON p.category_id = c.id
 
-    JOIN users u ON p.seller_id = u.id
+    JOIN users u ON p.seller_id = u.id
 
-    WHERE p.status = 'available'
+    WHERE p.status = 'available'
 
-    ORDER BY p.created_at DESC, p.id DESC
+    ORDER BY p.created_at DESC, p.id DESC
 
-  `;
+  `;
 
   db.query(sql, (err, results) => {
     if (err) {
@@ -69,37 +69,37 @@ export const list = (req, res) => {
 export const mine = (req, res) => {
   const sql = `
 
-    SELECT
+    SELECT
 
-      p.id,
+      p.id,
 
-      p.title,
+      p.title,
 
-      p.price,
+      p.price,
 
-      p.status,
+      p.status,
 
-      (
+      (
 
-        SELECT pi.image_url
+        SELECT pi.image_url
 
-        FROM product_images pi
+        FROM product_images pi
 
-        WHERE pi.product_id = p.id
+        WHERE pi.product_id = p.id
 
-        ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC
+        ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC
 
-        LIMIT 1
+        LIMIT 1
 
-      ) AS image_url
+      ) AS image_url
 
-    FROM products p
+    FROM products p
 
-    WHERE p.seller_id = ?
+    WHERE p.seller_id = ?
 
-    ORDER BY p.created_at DESC, p.id DESC
+    ORDER BY p.created_at DESC, p.id DESC
 
-  `;
+  `;
 
   db.query(sql, [req.session.userId], (err, products) => {
     if (err) {
@@ -123,17 +123,17 @@ export const markSold = (req, res) => {
 
   const sql = `
 
-    UPDATE products
+    UPDATE products
 
-    SET status = 'sold'
+    SET status = 'sold'
 
-    WHERE id = ?
+    WHERE id = ?
 
-      AND seller_id = ?
+      AND seller_id = ?
 
-      AND status = 'available'
+      AND status = 'available'
 
-  `;
+  `;
 
   db.query(sql, [productId, req.session.userId], (err, result) => {
     if (err) {
@@ -182,39 +182,39 @@ export const details = (req, res) => {
 
   const sql = `
 
-    SELECT
+    SELECT
 
-      p.id,
+      p.id,
 
-      p.seller_id,
+      p.seller_id,
 
-      p.title,
+      p.title,
 
-      p.description,
+      p.description,
 
-      p.price,
+      p.price,
 
-      p.\`condition\`,
+      p.\`condition\`,
 
-      p.is_negotiable,
+      p.is_negotiable,
 
-      p.status,
+      p.status,
 
-      p.created_at,
+      p.created_at,
 
-      c.name AS category,
+      c.name AS category,
 
-      u.full_name AS seller_name
+      u.full_name AS seller_name
 
-    FROM products p
+    FROM products p
 
-    JOIN categories c ON p.category_id = c.id
+    JOIN categories c ON p.category_id = c.id
 
-    JOIN users u ON p.seller_id = u.id
+    JOIN users u ON p.seller_id = u.id
 
-    WHERE p.id = ?
+    WHERE p.id = ?
 
-  `;
+  `;
 
   db.query(sql, [productId], (err, results) => {
     if (err) {
@@ -235,15 +235,15 @@ export const details = (req, res) => {
 
     const imagesSql = `
 
-      SELECT image_url
+      SELECT image_url
 
-      FROM product_images
+      FROM product_images
 
-      WHERE product_id = ?
+      WHERE product_id = ?
 
-      ORDER BY is_primary DESC, sort_order ASC, id ASC
+      ORDER BY is_primary DESC, sort_order ASC, id ASC
 
-    `;
+    `;
 
     db.query(imagesSql, [productId], (imageErr, images) => {
       if (imageErr) {
@@ -320,29 +320,29 @@ export const create = (req, res) => {
 
   const sql = `
 
-      INSERT INTO products
+      INSERT INTO products
 
-      (
+      (
 
-        seller_id,
+        seller_id,
 
-        category_id,
+        category_id,
 
-        title,
+        title,
 
-        description,
+        description,
 
-        price,
+        price,
 
-        \`condition\`,
+        \`condition\`,
 
-        is_negotiable
+        is_negotiable
 
-      )
+      )
 
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
 
-    `;
+    `;
 
   const values = [
     req.session.userId,
@@ -393,13 +393,13 @@ export const create = (req, res) => {
 
     const imageSql = `
 
-        INSERT INTO product_images
+        INSERT INTO product_images
 
-        (product_id, image_url, is_primary, sort_order)
+        (product_id, image_url, is_primary, sort_order)
 
-        VALUES ${placeholders}
+        VALUES ${placeholders}
 
-      `; // 4. Save images in MySQL
+      `; // 4. Save images in MySQL
 
     db.query(imageSql, imageValues, (imageErr) => {
       if (imageErr) {

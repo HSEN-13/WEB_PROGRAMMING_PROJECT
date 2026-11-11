@@ -1,6 +1,6 @@
 import connectDB, { db } from "../../config/db.js";
 
-import { getCheckoutDetails } from "./orders.service.js";
+import { getCheckoutDetails } from "./ordersServices.js";
 
 export const checkout = async (req, res) => {
   const productId = Number(req.params.productId);
@@ -83,13 +83,13 @@ export const buy = async (req, res) => {
     const [existingOrders] = await connection.execute(
       `SELECT id FROM orders
 
-       WHERE product_id = ? AND buyer_id = ?
+       WHERE product_id = ? AND buyer_id = ?
 
-         AND status IN ('pending', 'completed')
+         AND status IN ('pending', 'completed')
 
-       ORDER BY id DESC
+       ORDER BY id DESC
 
-       LIMIT 1`,
+       LIMIT 1`,
 
       [productId, buyerId],
     );
@@ -116,11 +116,11 @@ export const buy = async (req, res) => {
     const [order] = await connection.execute(
       `INSERT INTO orders
 
-         (product_id, buyer_id, seller_id, offer_id, final_price,
+         (product_id, buyer_id, seller_id, offer_id, final_price,
 
-          status, buyer_phone, buyer_email)
+          status, buyer_phone, buyer_email)
 
-       VALUES (?, ?, ?, ?, ?, 'pending', ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, 'pending', ?, ?)`,
 
       [
         productId,
@@ -148,13 +148,13 @@ export const buy = async (req, res) => {
     await connection.execute(
       `UPDATE offers
 
-       SET status = 'rejected'
+       SET status = 'rejected'
 
-       WHERE product_id = ?
+       WHERE product_id = ?
 
-         AND status IN ('pending', 'accepted')
+         AND status IN ('pending', 'accepted')
 
-         AND (? IS NULL OR id <> ?)`,
+         AND (? IS NULL OR id <> ?)`,
 
       [productId, details.offer_id, details.offer_id],
     );
@@ -194,39 +194,39 @@ export const list = (req, res) => {
 
   const sql = `
 
-    SELECT
+    SELECT
 
-      o.id,
+      o.id,
 
-      o.product_id,
+      o.product_id,
 
-      o.final_price,
+      o.final_price,
 
-      o.status,
+      o.status,
 
-      o.buyer_phone,
+      o.buyer_phone,
 
-      o.buyer_email,
+      o.buyer_email,
 
-      p.title AS product_title,
+      p.title AS product_title,
 
-      buyer.full_name AS buyer_name,
+      buyer.full_name AS buyer_name,
 
-      seller.full_name AS seller_name
+      seller.full_name AS seller_name
 
-    FROM orders o
+    FROM orders o
 
-    JOIN products p ON p.id = o.product_id
+    JOIN products p ON p.id = o.product_id
 
-    JOIN users buyer ON buyer.id = o.buyer_id
+    JOIN users buyer ON buyer.id = o.buyer_id
 
-    JOIN users seller ON seller.id = o.seller_id
+    JOIN users seller ON seller.id = o.seller_id
 
-    WHERE ${ownerColumn} = ?
+    WHERE ${ownerColumn} = ?
 
-    ORDER BY o.id DESC
+    ORDER BY o.id DESC
 
-  `;
+  `;
 
   res.set("Cache-Control", "private, no-store");
 
@@ -264,15 +264,15 @@ export const changeStatus = async (req, res) => {
     const [products] = await connection.execute(
       `SELECT id, status FROM products
 
-       WHERE id = (
+       WHERE id = (
 
-         SELECT product_id FROM orders
+         SELECT product_id FROM orders
 
-         WHERE id = ? AND (buyer_id = ? OR seller_id = ?)
+         WHERE id = ? AND (buyer_id = ? OR seller_id = ?)
 
-       )
+       )
 
-       FOR UPDATE`,
+       FOR UPDATE`,
 
       [orderId, userId, userId],
     );
@@ -286,7 +286,7 @@ export const changeStatus = async (req, res) => {
     const [orders] = await connection.execute(
       `SELECT id, buyer_id, seller_id, offer_id, status
 
-       FROM orders WHERE id = ? FOR UPDATE`,
+       FROM orders WHERE id = ? FOR UPDATE`,
 
       [orderId],
     );

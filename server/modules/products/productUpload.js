@@ -8,9 +8,7 @@ import { randomUUID } from "node:crypto";
 
 import { fileURLToPath } from "node:url";
 
-const uploadsFolder = fileURLToPath(
-  new URL("../../../uploads/", import.meta.url),
-);
+const uploadsFolder = fileURLToPath(new URL("../../uploads/", import.meta.url));
 
 // Create the folder if it doesn't exist
 

@@ -2,13 +2,13 @@ export async function getCheckoutDetails(connection, productId, buyerId) {
   const [products] = await connection.execute(
     `SELECT p.id, p.title, p.price, p.status, p.seller_id,
 
-            u.full_name AS seller_name
+            u.full_name AS seller_name
 
-     FROM products p
+     FROM products p
 
-     JOIN users u ON u.id = p.seller_id
+     JOIN users u ON u.id = p.seller_id
 
-     WHERE p.id = ?`,
+     WHERE p.id = ?`,
 
     [productId],
   );
@@ -32,13 +32,13 @@ export async function getCheckoutDetails(connection, productId, buyerId) {
   const [offers] = await connection.execute(
     `SELECT id, amount
 
-     FROM offers
+     FROM offers
 
-     WHERE product_id = ? AND buyer_id = ? AND status = 'accepted'
+     WHERE product_id = ? AND buyer_id = ? AND status = 'accepted'
 
-     ORDER BY id DESC
+     ORDER BY id DESC
 
-     LIMIT 1`,
+     LIMIT 1`,
 
     [productId, buyerId],
   );

@@ -1,9 +1,8 @@
 import { Router } from "express";
 
-import * as controller from "./offers.controller.js";
+import * as controller from "./offersController.js";
 
-import requireLogin from "../../shared/middleware/requireLogin.js";
-
+import requireLogin from "../../middleware/requireLogin.js";
 const router = Router();
 
 router.post("/api/products/:id/offers", requireLogin, controller.create);

@@ -3,25 +3,25 @@ import { db } from "../../config/db.js";
 export const list = (req, res) => {
   const sql = `
 
-    SELECT
+    SELECT
 
-      r.id,
+      r.id,
 
-      r.rating,
+      r.rating,
 
-      r.comment,
+      r.comment,
 
-      r.created_at,
+      r.created_at,
 
-      u.full_name AS author_name
+      u.full_name AS author_name
 
-    FROM marketplace_reviews r
+    FROM marketplace_reviews r
 
-    JOIN users u ON u.id = r.user_id
+    JOIN users u ON u.id = r.user_id
 
-    ORDER BY r.created_at DESC, r.id DESC
+    ORDER BY r.created_at DESC, r.id DESC
 
-  `;
+  `;
 
   db.query(sql, (err, reviews) => {
     if (err) {
@@ -53,11 +53,11 @@ export const publish = (req, res) => {
 
   const sql = `
 
-    INSERT INTO marketplace_reviews (user_id, rating, comment)
+    INSERT INTO marketplace_reviews (user_id, rating, comment)
 
-    VALUES (?, ?, ?)
+    VALUES (?, ?, ?)
 
-  `;
+  `;
 
   db.query(sql, [req.session.userId, rating, comment.trim()], (err, result) => {
     if (err) {

@@ -23,35 +23,35 @@ export const create = (req, res) => {
 
   const sql = `
 
-    INSERT INTO offers (product_id, buyer_id, amount, status)
+    INSERT INTO offers (product_id, buyer_id, amount, status)
 
-    SELECT p.id, ?, ?, 'pending'
+    SELECT p.id, ?, ?, 'pending'
 
-    FROM products p
+    FROM products p
 
-    WHERE p.id = ?
+    WHERE p.id = ?
 
-      AND p.seller_id <> ?
+      AND p.seller_id <> ?
 
-      AND p.status = 'available'
+      AND p.status = 'available'
 
-      AND p.is_negotiable = 1
+      AND p.is_negotiable = 1
 
-      AND NOT EXISTS (
+      AND NOT EXISTS (
 
-        SELECT 1
+        SELECT 1
 
-        FROM offers o
+        FROM offers o
 
-        WHERE o.product_id = p.id
+        WHERE o.product_id = p.id
 
-          AND o.buyer_id = ?
+          AND o.buyer_id = ?
 
-          AND o.status = 'pending'
+          AND o.status = 'pending'
 
-      )
+      )
 
-  `;
+  `;
 
   db.query(
     sql,
@@ -97,39 +97,39 @@ export const list = (req, res) => {
 
   const sql = `
 
-    SELECT
+    SELECT
 
-      o.id,
+      o.id,
 
-      o.amount,
+      o.amount,
 
-      o.status,
+      o.status,
 
-      p.id AS product_id,
+      p.id AS product_id,
 
-      p.title AS product_title,
+      p.title AS product_title,
 
-      p.price AS asking_price,
+      p.price AS asking_price,
 
-      p.status AS product_status,
+      p.status AS product_status,
 
-      buyer.full_name AS buyer_name,
+      buyer.full_name AS buyer_name,
 
-      seller.full_name AS seller_name
+      seller.full_name AS seller_name
 
-    FROM offers o
+    FROM offers o
 
-    JOIN products p ON p.id = o.product_id
+    JOIN products p ON p.id = o.product_id
 
-    JOIN users buyer ON buyer.id = o.buyer_id
+    JOIN users buyer ON buyer.id = o.buyer_id
 
-    JOIN users seller ON seller.id = p.seller_id
+    JOIN users seller ON seller.id = p.seller_id
 
-    WHERE ${ownerColumn} = ?
+    WHERE ${ownerColumn} = ?
 
-    ORDER BY o.id DESC
+    ORDER BY o.id DESC
 
-  `;
+  `;
 
   res.set("Cache-Control", "private, no-store");
 
@@ -165,13 +165,13 @@ export const decide = async (req, res) => {
     const [products] = await connection.execute(
       `SELECT id, status
 
-       FROM products
+       FROM products
 
-       WHERE seller_id = ?
+       WHERE seller_id = ?
 
-         AND id = (SELECT product_id FROM offers WHERE id = ?)
+         AND id = (SELECT product_id FROM offers WHERE id = ?)
 
-       FOR UPDATE`,
+       FOR UPDATE`,
 
       [req.session.userId, offerId],
     );
@@ -201,9 +201,9 @@ export const decide = async (req, res) => {
     const [update] = await connection.execute(
       `UPDATE offers
 
-       SET status = ?
+       SET status = ?
 
-       WHERE id = ? AND product_id = ? AND status = 'pending'`,
+       WHERE id = ? AND product_id = ? AND status = 'pending'`,
 
       [decision, offerId, product.id],
     );

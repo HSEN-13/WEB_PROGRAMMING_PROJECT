@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import * as controller from "./products.controller.js";
+import * as controller from "./productController.js";
 
-import requireLogin from "../../shared/middleware/requireLogin.js";
+import requireLogin from "../../middleware/requireLogin.js";
 
-import { upload } from "./products.upload.js";
+import { upload } from "./productUpload.js";
 
 const router = Router();
 

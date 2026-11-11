@@ -1,6 +1,6 @@
 import multer from "multer";
 
-app.use((err, req, res, next) => {
+export default function errorHandler(err, req, res, next) {
   if (err instanceof multer.MulterError) {
     return res.status(400).json({
       message: "Upload failed. Maximum 4 images, 20 MB total.",
@@ -14,4 +14,4 @@ app.use((err, req, res, next) => {
   }
 
   next(err);
-});
+}
