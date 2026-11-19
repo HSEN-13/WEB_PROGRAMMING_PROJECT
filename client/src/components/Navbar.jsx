@@ -47,11 +47,17 @@ function Navbar() {
         </a>
         <div className="nav-links">
           <a href="/marketplace">Marketplace</a>
-          {user && <a href="/sell">Sell Product</a>}
-          {user && <a href="/my-listings">My Listings</a>}
+
+          {user?.role === "user" && <a href="/sell">Sell Product</a>}
+          {user?.role === "user" && <a href="/my-listings">My Listings</a>}
+
           <a href="/reviews">Reviews</a>
-          {user && <a href="/orders/purchases">Orders</a>}
-          {user && <a href="/offers/received">Offers</a>}
+
+          {user?.role === "user" && <a href="/orders/purchases">Orders</a>}
+          {user?.role === "user" && <a href="/offers/received">Offers</a>}
+
+          {user?.role === "admin" && <a href="/admin">Admin Dashboard</a>}
+
           <div className="nav-auth">
             {!loading &&
               (user ? (

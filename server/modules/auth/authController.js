@@ -33,13 +33,17 @@ export const signup = async (req, res) => {
     });
   }
 
-  if (password.length < 8) {
-    //add more constraints
-
+  if (
+    password.length < 8 ||
+    !/[A-Z]/.test(password) ||
+    !/[a-z]/.test(password) ||
+    !/[0-9]/.test(password)
+  ) {
     return res.status(400).json({
-      message: "Password must be at least 8 characters",
+      message:
+        "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.",
     });
-  } // 2. Hash password
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10); // 3. Insert user into MySQL
 

@@ -10,6 +10,7 @@ import NewReview from "./pages/NewReview";
 import Offers from "./pages/Offers";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   const page = window.location.pathname;
@@ -39,6 +40,7 @@ function App() {
   if (page === "/orders/sales") {
     return <Orders key="sales" view="sales" />;
   }
+  if (page === "/admin") return <AdminDashboard />;
 
   return <Home />;
 }

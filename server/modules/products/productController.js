@@ -47,7 +47,9 @@ export const list = (req, res) => {
 
     JOIN users u ON p.seller_id = u.id
 
-    WHERE p.status = 'available'
+    WHERE p.status = 'available' 
+    
+    AND p.deleted_at IS NULL
 
     ORDER BY p.created_at DESC, p.id DESC
 
@@ -95,7 +97,9 @@ export const mine = (req, res) => {
 
     FROM products p
 
-    WHERE p.seller_id = ?
+    WHERE p.seller_id = ? 
+    
+    AND p.deleted_at IS NULL
 
     ORDER BY p.created_at DESC, p.id DESC
 
@@ -132,6 +136,8 @@ export const markSold = (req, res) => {
       AND seller_id = ?
 
       AND status = 'available'
+      
+      AND deleted_at IS NULL
 
   `;
 
@@ -212,7 +218,9 @@ export const details = (req, res) => {
 
     JOIN users u ON p.seller_id = u.id
 
-    WHERE p.id = ?
+    WHERE p.id = ? 
+    
+    AND p.deleted_at IS NULL
 
   `;
 

@@ -18,6 +18,9 @@ import errorHandler from "./middleware/errorHandler.js";
 
 import healthRoutes from "./health/health.routs.js";
 
+import adminRoutes from "./modules/admin/adminRoutes.js";
+import requireAdmin from "./middleware/requireAdmin.js";
+
 const app = express();
 
 app.use(express.json());
@@ -35,6 +38,8 @@ app.use(offersRoutes);
 app.use(reviewsRoutes);
 
 app.use(ordersRoutes);
+
+app.use("/api/admin", requireAdmin, adminRoutes);
 
 app.use(errorHandler);
 

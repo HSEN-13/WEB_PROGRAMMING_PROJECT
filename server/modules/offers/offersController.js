@@ -34,6 +34,8 @@ export const create = (req, res) => {
       AND p.seller_id <> ?
 
       AND p.status = 'available'
+      
+      AND p.deleted_at IS NULL
 
       AND p.is_negotiable = 1
 
@@ -111,7 +113,7 @@ export const list = (req, res) => {
 
       p.price AS asking_price,
 
-      p.status AS product_status,
+      CASE WHEN p.deleted_at IS NULL THEN p.status ELSE 'removed' END AS product_status,
 
       buyer.full_name AS buyer_name,
 
@@ -168,8 +170,10 @@ export const decide = async (req, res) => {
        FROM products
 
        WHERE seller_id = ?
+       
+       AND deleted_at IS NULL
 
-         AND id = (SELECT product_id FROM offers WHERE id = ?)
+       AND id = (SELECT product_id FROM offers WHERE id = ?)
 
        FOR UPDATE`,
 

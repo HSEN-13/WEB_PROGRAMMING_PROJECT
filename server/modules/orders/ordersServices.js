@@ -8,7 +8,9 @@ export async function getCheckoutDetails(connection, productId, buyerId) {
 
      JOIN users u ON u.id = p.seller_id
 
-     WHERE p.id = ?`,
+     WHERE p.id = ?
+     
+     AND p.deleted_at IS NULL`,
 
     [productId],
   );
